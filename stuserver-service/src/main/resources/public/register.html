@@ -1,0 +1,165 @@
+<html>
+<head>
+	<TITLE></TITLE>
+	<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="/js/tojson.js"></script>
+
+
+	<style>
+
+		input,body,button,option{
+			background-color: darkgrey;
+			color: chocolate;
+			font-size: 25px;
+			font-family: 方正黄草简体, 楷体;
+		}
+
+		.error{
+			color:red;
+			visibility: visible;
+		}
+		.info{
+			visibility: hidden;
+		}
+
+	</style>
+
+
+</head>
+<body>
+<div id="top"></div>
+<table>
+	<tr>
+		<td>
+			<a href="index.html"><b><font size="5">&lt;&lt; 主菜单 </font>
+			</b></a>
+		</td>
+	</tr>
+</table>
+
+<input type="button" onclick="window .location='http://www.7k7k.com'" value="7k7k">
+
+<input type="button" onclick="window .location='http://www.baidu.com'" value="百度一下">
+
+<form id="form1">
+
+	<table cellpadding=10 cellspacing=0 align=center border=1 width="450"
+		   bgcolor=#dddddd>
+		<tr>
+			<td>
+				<font color=darkgreen>
+				<h3>
+					基本信息
+				</h3>
+			</font>
+				<table border=0  bgcolor=#FFFF88  width="100%">
+					<tr bgcolor=#FFFF88>
+						<td>
+							用&nbsp;户&nbsp;名：<input type="text" name="username" id="username" />
+							<span class="info" id="umsg">请输入用户名！</span>
+
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							密&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" name="password" id="password" />
+							<span class="info" id="upas">请输入密码！</span>
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							确认密码：<input type="password" name="repassword" id="repassword" />
+							<span class="info" id="pmsg">密码必须一致！</span>
+						</td>
+					</tr>
+				</table>
+	</table>
+	<br/>
+	<center>
+		<input type="button" id="mySubmit" value="注册" onclick="alert('确定注册？')">
+		<input type="reset" value="重置"/><br/>
+	</center>
+
+</form>
+
+		<script>
+			$("#username").blur(function () {
+
+				var username=$("#username").val()
+
+				var URL="http://localhost:8083/acc/ver/"+username
+				$.ajax({
+					url:URL,
+					type:"get",
+					dataType:"text",
+					statusCode:{
+					    200:function (data) {
+							if(data.indexOf("true")>=0){
+
+                                $("#umsg").html("用户名重复")
+                                $("#umsg").attr("class","error")
+							}else{
+								$("#umsg").attr("class","info")
+							}
+                        }
+
+					}
+				})
+            })
+			$("#mySubmit").click(function () {
+
+                var username=$("#username").val();
+                if(username==""){
+                    $("#umsg").attr("class","error")
+                }else{
+                    $("#umsg").attr("class","info")
+                }
+                var password=$("#password").val();
+                if(password==""){
+                    $("#upas").attr("class","error")
+                }else{
+                    $("#upas").attr("class","info")
+                }
+                var repassword=$("#repassword").val();
+                if(repassword==""){
+                    $("#pmsg").html("请再次输入密码")
+                    $("#pmsg").attr("class","error")
+                }else{
+                    $("#upas").attr("class","info")
+                }
+                if(repassword!=password){
+                    $("#pmsg").html("密码必须一致")
+                    $("#pmsg").attr("class","error")
+                }else{
+                    $("#upas").attr("class","info")
+                }
+
+
+                var URL="http://localhost:8083/acc/reg"
+				$.ajax({
+					url:URL,
+					type:"post",
+					data:JSON.stringify($("#form1").serializeObject()),
+					dataType:"text",
+					contentType:"application/json",
+					statusCode:{
+					    200:function (data) {
+							alert("注册成功")
+							window.location="login.html"
+                        },
+						500:function (data) {
+					        alert("注册失败")
+                            window.location="register.html"
+                        }
+					}
+				})
+            })
+
+		</script>
+
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+body {
+    background-color: #BEBEBE;
+    margin: 0px auto;
+    max-width: 1200px;
+}
+
+img.logo {
+    width: 1200px;
+    height: 100px;
+}
+
+img.profilePhoto {
+    width: 150px;
+    height: 150px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    float: left;
+}
+
+a.menu:link, a.menu:visited {
+    display: block;
+    width: 200px;
+    height: 30px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #BEBEBE;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 30px;
+}
+
+a.menu:hover, a.menu:active {
+    background-color: #cc0000;
+}
+
+#bodyLeft, #bodyMain {
+    margin: 5px;
+    float: left;
+    border: 1px #333 solid;
+}
+
+#bodyLeft {
+    text-align: center;
+    width: 200px;
+}
+
+#recommend1, #recommend2 {
+    width: 445px;
+    float: left;
+    margin: 20px;
+    border: 1px #333 solid;
+}
+
+#information {
+    width: 1200px;
+    text-align: center;
+    position: fixed;
+    bottom: 0px;
+}
