@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.network.good.mapper.GOrderDao">
+
+    <select id="selectById" resultType="com.network.api.beans.GOrder">
+        select gorder.*
+        tuser.name "username",
+        tuser.address "useraddress",
+        tuser.phone "userphone"
+        from gd_order gorder inner join t_user tuser
+        on gorder.consumer_id=tuser.id;
+        where gorder.id=#{id};
+    </select>
+
+    <select id="selectAll" resultType="com.network.api.beans.GOrder">
+        select gorder.*,
+        tuser.name "username",
+        tuser.address "useraddress",
+        tuser.phone "userphone"
+        from  gd_order gorder inner join t_user tuser
+        where gorder.consumer_id=tuser.id;
+    </select>
+
+    <select id="selectOrdersByPage" resultType="com.network.api.beans.GOrder">
+        select gorder.*,
+        tuser.name "user.name",
+        tuser.address "user.address",
+        tuser.phone "user.phone"
+        from  gd_order gorder inner join t_user tuser
+        where gorder.consumer_id=tuser.id
+        limit #{start},#{end};
+    </select>
+
+    <select id="getTotalLines" resultType="Integer">
+    select count(*)
+    from gd_order ;
+    </select>
+
+    <delete id="deleteById">
+        delete from gd_order where id=#{id};
+    </delete>
+
+    <insert id="saveGOrder" parameterType="com.network.api.beans.GOrder">
+       insert into gd_order (total, provider_id, consumer_id, gd_date, gd_id, paymentstatus, orderstatus, shipstatus, logistics,username,useraddress,userphone) VALUES (#{total}, #{providerid}, #{consumerid},curdate(), #{gd_id},#{paymentstatus}, #{orderstatus}, #{shipstatus}, #{logistics},#{username},#{useraddress},#{userphone});
+    </insert>
+
+    <update id="updateGOrder" parameterType="com.network.api.beans.GOrder">sd
+        update gd_order set total=#{total},provider_id=#{providerid},consumer_id=#{consumerid},gd_date=#{gddate},gd_id=#{gdid},paymentstatus=#{paymentstatus},orderstatus=#{orderstatus},shipstatus=#{shipstatus},logistics=#{logistics}
+        where id=#{id};
+    </update>
+
+
+
+
+</mapper>

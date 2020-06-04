@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.network.good.mapper.LogisticsDao">
+    <select id="selectById" resultType="com.network.api.beans.Logistics">
+        select *from logistics where id=#{id};
+    </select>
+
+    <select id="selectByName" parameterType="java.lang.String" resultType="com.network.api.beans.Logistics">
+        select *from logistics where name=#{name};
+    </select>
+
+    <select id="selectAll" resultType="com.network.api.beans.Logistics">
+        select *from logistics;
+    </select>
+
+    <delete id="deleteById">
+        delete from logistics where id=#{id};
+    </delete>
+
+    <insert id="saveLogistics" parameterType="com.network.api.beans.Logistics">
+        insert into logistics (name,fee,receiverName,receiverPhone,receiverAddress)values(#{name},#{fee},#{receiverName},#{receiverPhone},#{receiverAddress});
+    </insert>
+
+</mapper>

@@ -1,0 +1,266 @@
+
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+        <script src="./lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+    </head>
+    
+    <body>
+        <div class="x-nav">
+            <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a href="">商品管理</a>
+                <a href="/product-list.html">
+                    <cite>商品列表 </cite></a>
+            </span>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+            </a>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <form class="layui-form layui-col-space5">
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <input  class="layui-input" placeholder="开始日" name="start" id="start">
+                                </div>
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <input  class="layui-input" placeholder="截止日" name="end" id="end">
+                                </div>
+								<div class="layui-input-inline layui-show-xs-block">
+								    <select name="classifyId" id="classifyId">
+                                    </select>
+								</div>
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <button  type="button" class="layui-btn" data-type="getreload" >
+                                        <i class="layui-icon">&#xe615;</i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="layui-card-header">
+                            <button class="layui-btn layui-btn-danger" data-type="getCheckData" >
+                                <i class="layui-icon"></i>批量下架</button>
+                            <button class="layui-btn" onclick="xadmin.open('上架商品','/product-add.html',800,600)">
+                                <i class="layui-icon"></i>上架商品</button></div>
+                        <div class="layui-card-body ">
+                            <table class="layui-hide" id="complainTable" lay-filter="complainList"></table>
+                            <script type="text/html" id="barDemo">
+                                <a  title="编辑" lay-event="edit" href="javascript:;"> <i class="layui-icon">&#xe63c;</i></a>
+                                <a  title="下架" lay-event="del" href="javascript:;"> <i class="layui-icon">&#xe640;</i></a>
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        layui.use(['table','form','laydate'], function(){
+            $ = layui.jquery;
+            var table = layui.table;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            getClassify();
+
+            //渲染开始日期
+            laydate.render({
+                elem: '#start' //指定元素
+            });
+
+            //渲染结束日期
+            laydate.render({
+                elem: '#end' //指定元素
+            });
+
+            //方法级渲染table
+          table.render({
+                elem: '#complainTable'
+                ,url: '/goodlistBypage'
+                ,cols: [[
+                    {checkbox: true, fixed: true}
+                    ,{field:'id', title: '商品编号', width:100, sort: true, fixed: true}
+                    ,{ field: 'tname', title : '商品分类', width:100,templet: '<div>{{d.type.name}}</div>'}
+                    ,{field:'name', title: '商品名', width:80, sort: true,edit:true}
+                    ,{field:'price', title: '总价', width:100}
+                    ,{field:'providerid', title: '卖家编号', width:100}
+                    ,{field:'shelfdate', title: '上架日期', width:150,templet: '<div>{{layui.util.toDateString(d.shelfdate, "yyyy-MM-dd") }}</div>'}
+                    ,{field:'description', title: '描述', width:180}
+                    ,{field:'right', title: '操作', width:177,toolbar:"#barDemo"}
+                ]]
+                ,id: 'testReload'
+                ,page: true
+                ,height: 600
+            });
+
+          //监听的方法
+            var $ = layui.$, active = {
+                getreload: function() {
+                    var start = $('input[name="start"]').val();
+                    var end = $('input[name="end"]').val();
+                    var typeid = $("select option:selected").val();
+                    var typename=$("#classifyId option:checked").text();
+
+
+                    if(typeid!=''&&(start==''&&end=='')){
+                        console.log('重载1');
+
+                        table.reload('testReload',{
+                            url: "/searchGoodsByTypeid?typeid="+typeid,
+                            cols: [[
+                                {checkbox: true, fixed: true}
+                                , {field: 'id', title: '商品编号', width: 100, sort: true, fixed: true}
+                                , {field: 'tname', title: '商品分类', width: 100, templet: '<div>{{d.type.name}}</div>'}
+                                , {field: 'name', title: '商品名', width: 80, sort: true, edit: true}
+                                , {field: 'price', title: '总价', width: 100}
+                                , {field: 'providerid', title: '卖家编号', width: 100}
+                                , {field: 'shelfdate', title: '上架日期', width: 150}
+                                , {field: 'description', title: '描述', width: 180}
+                                , {field: 'right', title: '操作', width: 177, toolbar: "#barDemo"}
+                            ]]
+                            , id: 'testTT'
+                            , page: true
+                            , height: 600
+                        });
+                    }
+                    else if(typeid==''&&(start!==''&&end!='')){
+                        table.reload('testReload',{
+                            url: "/searchGoodsByDate?start=" + start + "&end=" + end,
+                            cols: [[
+                                {checkbox: true, fixed: true}
+                                , {field: 'id', title: '商品编号', width: 100, sort: true, fixed: true}
+                                , {field: 'tname', title: '商品分类', width: 100, templet: '<div>{{d.type.name}}</div>'}
+                                , {field: 'name', title: '商品名', width: 80, sort: true, edit: true}
+                                , {field: 'price', title: '总价', width: 100}
+                                , {field: 'providerid', title: '卖家编号', width: 100}
+                                , {field: 'shelfdate', title: '上架日期', width: 150}
+                                , {field: 'description', title: '描述', width: 180}
+                                , {field: 'right', title: '操作', width: 177, toolbar: "#barDemo"}
+                            ]]
+                            , id: 'testCC'
+                            , page: true
+                            , height: 600
+                        });
+                    }
+
+                    else if ((start != '' && end != '')&&typeid!=''){
+                        table.reload('testReload', {
+
+                            url: "/searchGoodsByAll?start=" + start + "&end=" + end + "&typeid=" + typeid,
+                            cols: [[
+                                {checkbox: true, fixed: true}
+                                , {field: 'id', title: '商品编号', width: 100, sort: true, fixed: true}
+                                , {field: 'tname', title: '商品分类', width: 100, templet: '<div>{{d.type.name}}</div>'}
+                                , {field: 'name', title: '商品名', width: 80, sort: true, edit: true}
+                                , {field: 'price', title: '总价', width: 100}
+                                , {field: 'providerid', title: '卖家编号', width: 100}
+                                , {field: 'shelfdate', title: '上架日期', width: 150}
+                                , {field: 'description', title: '描述', width: 180}
+                                , {field: 'right', title: '操作', width: 177, toolbar: "#barDemo"}
+                            ]]
+                            , id: 'testCT'
+                            , page: true
+                            , height: 600
+
+                        });
+                    }
+
+                    else if(start==''&&end==''&&typeid==''){
+                        layer.msg('请输入的搜索信息！', {icon: 2});
+                    }
+
+                },
+                getCheckData: function () {
+                    var checkStatus = table.checkStatus('testReload');// table.checkStatus是Layui中自带，id: 'testReload'可自定义
+                    if (checkStatus.data.length == 0) {
+                        parent.layer.msg('请先选择要下架的商品！', {icon: 2});
+                        return;
+                    }
+
+                    layer.confirm("您确定要下架这些商品吗？", function () {
+                        for (var i = 0; i < checkStatus.data.length; i++) {
+                                 var id= checkStatus.data[i].id ;
+                            $.ajax({
+                                url:  '/deleteById',
+                                type: "POST",
+                                data:{"id":id},
+                                dataType: "json",
+                            });
+                    }
+                        parent.layer.msg('下架成功！', {icon: 1,time:2000,shade:0.2});
+
+                        location.reload(true);
+
+                    });
+
+
+                }
+            };
+            //监听的启动
+                $('.layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+            //table的监听
+            table.on('tool(complainList)', function(obj){
+                var data = obj.data;
+             if(obj.event === 'del'){
+                    layer.confirm('确认要删除吗？', function(index){
+                        console.log(data);
+                        $.ajax({
+                            url:  '/deleteById',
+                            type: "POST",
+                            data:{"id":data.id},
+                            dataType: "json",
+                        });
+                        obj.del();
+                        //关闭弹框
+                        layer.close(index);
+                        layer.msg("删除成功", {icon: 6});
+
+                    });
+                } else if(obj.event === 'edit'){
+                 xadmin.open('编辑',"/product-view?id="+data.id);
+                }
+            });
+
+
+            function getClassify(){
+                console.log("进入分类单");
+                $.ajax({
+                    url:'/typelist',
+                    dataType:'json',
+                    type:'get',
+                    success:function(data) {
+                        console.log("进入select");
+                        if (data != undefined && data != null && data != "") { //坑：data.data
+                            console.log(data);
+                            var list=data.data;
+                            var html = "";
+                            html += "<option value=''>直接选择或搜索选择</option>";
+                            for (var i = 0; i < list.length; i++) {
+                                    html += "<option value=" + list[i]["id"] + " >" + list[i]["name"] + "</option>";
+                                }
+                            }
+                            $('#classifyId').append(html);
+                            layui.form.render("select");
+                    }
+
+                });
+            }
+
+            });
+
+
+    </script>
+
+</html>

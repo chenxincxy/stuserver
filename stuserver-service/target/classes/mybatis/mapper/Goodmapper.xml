@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.network.good.mapper.GoodDao">
+
+    <select id="selectById" resultType="com.network.api.beans.Good">
+        select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id
+        where good.id=#{id};
+    </select>
+
+    <select id="selectAll" resultType="com.network.api.beans.Good">
+        select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id;
+    </select>
+
+    <delete id="deleteById">
+        delete from gd_information where id=#{id};
+    </delete>
+
+    <insert id="saveGood" parameterType="com.network.api.beans.Good">
+       insert into gd_information (glist_id, name, price, provider_id,description,shelf_date,picture) VALUES (#{glistid},#{name},#{price},#{providerid},#{description},curdate(),#{picture});
+    </insert>
+
+    <update id="updateGood" parameterType="com.network.api.beans.Good">
+        update gd_information set glist_id=#{glistid},name=#{name},price=#{price},description=#{description}
+        where id=#{id};
+    </update>
+
+    <select id="selectGoodsByPage" resultType="com.network.api.beans.Good">
+             select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id limit #{start},#{end};
+    </select>
+
+    <select id="getTotalLines" resultType="Integer">
+        select count(*) from gd_information;
+    </select>
+
+    <select id="selectGoodByDate" resultType="com.network.api.beans.Good">
+         select *from gd_information where shelf_date between #{startdate} and #{enddate} and glist_id=#{glistid};
+    </select>
+
+    <select id="selectGoodByDateAndTypeidAndPage" resultType="com.network.api.beans.Good">
+          select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id
+		  and  good.shelf_date between #{startdate} and #{enddate} and good.glist_id=#{glistid}
+		  limit #{start},#{end};
+    </select>
+
+    <select id="selectGoodByTypeidAndPage" resultType="com.network.api.beans.Good">
+         select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id
+        and class.id=#{glistid}
+     		  limit #{start},#{end};
+    </select>
+
+    <select id="selectGoodByDateAndPage" resultType="com.network.api.beans.Good">
+          select good.* ,
+        class.id "type.id",
+        class.name "type.name"
+        from gd_information good inner join gd_list class
+        on good.glist_id=class.id
+		  and  good.shelf_date between #{startdate} and #{enddate}
+		  limit #{start},#{end};
+    </select>
+</mapper>
