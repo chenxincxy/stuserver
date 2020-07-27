@@ -1,7 +1,7 @@
 package com.network.good.serviceImpl;
 
 import com.network.api.beans.GOrderstatus;
-import com.network.api.service.IGOrderstatusService;
+import com.network.good.service.IGOrderstatusService;
 import com.network.good.mapper.GOrderstatusDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

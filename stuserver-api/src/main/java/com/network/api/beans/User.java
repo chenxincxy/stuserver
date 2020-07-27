@@ -13,8 +13,10 @@ public class User {
     private String picture;
     private String school;
     private String major;
-    private int slevelid;
-    private int glevelid;
+    private String IDcard;
+    private String email;
+    private String slevelName;
+    private String glevelName;
 
     public int getId() {
         return id;
@@ -96,19 +98,57 @@ public class User {
         this.major = major;
     }
 
-    public int getSlevelid() {
-        return slevelid;
+
+
+    public String getSlevelName() {
+        return slevelName;
     }
 
-    public void setSlevelid(int slevelid) {
-        this.slevelid = slevelid;
+    public void setSlevelName(String slevelName) {
+        this.slevelName = slevelName;
     }
 
-    public int getGlevelid() {
-        return glevelid;
+    public String getGlevelName() {
+        return glevelName;
     }
 
-    public void setGlevelid(int glevelid) {
-        this.glevelid = glevelid;
+    public void setGlevelName(String glevelName) {
+        this.glevelName = glevelName;
+    }
+
+    public String getIDcard() {
+        return IDcard;
+    }
+
+    public void setIDcard(String IDcard) {
+        this.IDcard = IDcard;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birthday=" + birthday +
+                ", status='" + status + '\'' +
+                ", picture='" + picture + '\'' +
+                ", school='" + school + '\'' +
+                ", major='" + major + '\'' +
+                ", IDcar='" + IDcard + '\'' +
+                ", email='" + email + '\'' +
+                ", slevelName='" + slevelName + '\'' +
+                ", glevelName='" + glevelName + '\'' +
+                '}';
     }
 }

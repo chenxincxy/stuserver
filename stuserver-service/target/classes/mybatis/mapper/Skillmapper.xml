@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.network.good.mapper.SkillDao">
+
+    <select id="selectById" resultType="com.network.api.beans.Skill">
+        select skill.* ,
+          class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.slist_id=class.id
+        where skill.id=#{id};
+    </select>
+
+    <select id="selectAll" resultType="com.network.api.beans.Skill">
+       select skill.* ,
+         class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.slist_id=class.id;
+    </select>
+
+    <delete id="deleteById">
+        delete from sk_information where id=#{id};
+    </delete>
+
+    <insert id="saveSkill" parameterType="com.network.api.beans.Skill">
+       insert into sk_information (slist_id, name, price, provider_id,description,shelf_date) VALUES (#{slistid},#{name},#{price},#{providerid},#{description},curdate());
+    </insert>
+
+    <update id="updateSkill" parameterType="com.network.api.beans.Skill">
+        update svsp.sk_information set slist_id=#{slistid},name=#{name},price=#{price},description=#{description}
+        where id=#{id};
+    </update>
+
+    <select id="selectSkillByPage" resultType="com.network.api.beans.Skill">
+        select skill.* ,
+        class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.slist_id=class.id
+         limit #{start},#{end};
+    </select>
+
+    <select id="getTotalLines" resultType="Integer">
+        select count(*) from gd_information;
+    </select>
+
+    <select id="searchByStartDate" resultType="com.network.api.beans.Skill">
+              select skill.* ,
+          class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.id=class.id
+		where skill.shelf_date>=#{startdate}
+		  limit #{start},#{end};
+    </select>
+    <select id="searchByEndDate" resultType="com.network.api.beans.Skill">
+       select skill.* ,
+         class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.id=class.id
+		where skill.shelf_date&lt;=#{enddate}
+		  limit #{start},#{end};
+    </select>
+
+    <select id="searchByDate" resultType="com.network.api.beans.Skill">
+        select skill.* ,
+          class.id "skillType.id",
+        class.name "skillType.name"
+        from sk_information skill inner join sk_list class
+        on skill.id=class.id
+        where skill.shelf_date between #{startdate} and #{enddate}
+        limit #{start},#{end};
+    </select>
+
+</mapper>

@@ -31,28 +31,24 @@
                     <div class="layui-card">
                         <div class="layui-card-body ">
                             <form class="layui-form layui-col-space5">
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <input class="layui-input" placeholder="开始日" name="start" id="start"></div>
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <input class="layui-input" placeholder="截止日" name="end" id="end"></div>
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <select name="payment" id="payment">
-                                    </select>
-                                </div>
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <select name="orderstatus" id="orderstatus">
-                                    </select>
-                                </div>
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input"></div>
-                                <div class="layui-input-inline layui-show-xs-block">
-                                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
-                                        <i class="layui-icon">&#xe615;</i></button>
+                                <div class="demoTable">
+                                    <div class="layui-input-inline layui-show-xs-block">
+                                        <input class="layui-input" placeholder="开始日" name="start" id="start"></div>
+                                    <div class="layui-input-inline layui-show-xs-block">
+                                        <input class="layui-input" placeholder="截止日" name="end" id="end"></div>
+
+                                    <div class="layui-input-inline layui-show-xs-block">
+                                        <input type="text" name="orderid" id="orderid" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn" data-type="reload" lay-submit="" lay-filter="search">搜索</button>
+                                    <i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
+
+
                         </div>
                         <div class="layui-card-header">
-                            <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                            <button class="layui-btn layui-btn-danger" data-type="getCheckData" >
                                 <i class="layui-icon"></i>批量删除</button>
                             <button class="layui-btn" onclick="xadmin.open('添加用户','/order-add.html',800,600)">
                                 <i class="layui-icon"></i>添加</button>
@@ -96,18 +92,16 @@
         ,cols: [[
             {checkbox: true, fixed: true}
             ,{field:'id', title: '订单编号', width:100, sort: true, fixed: true}
-            ,{ field: 'total', title : '总金额', width:100,sort: true, fixed: true}
-            ,{field:'providerid', title: '卖家信息', width:50, sort: true,edit:true}
+            ,{ field: 'total', title : '总金额', width:80,sort: true, fixed: true}
             ,{field:'username', title: '买家姓名', width:100}
-            ,{field:'userphone', title: '买家电话', width:100}
+            ,{field:'userphone', title: '买家电话', width:130}
             ,{field:'useraddress', title: '买家地址', width:180}
             ,{field:'gddate', title: '下单时间', width:100,templet: '<div>{{layui.util.toDateString(d.gddate, "yyyy-MM-dd") }}</div>'}
-            ,{field:'gdid', title: '商品编号', width:150}
+            ,{field:'gdid', title: '商品编号', width:100}
             ,{field:'paymentstatus', title: '支付状态', width:90}
             ,{field:'orderstatus', title: '订单状态', width:90}
             ,{field:'shipstatus', title: '发货状态', width:90}
-            ,{field:'logistics', title: '物流', width:90}
-            ,{field:'right', title: '操作', width:60,toolbar:"#barDemo"}
+            ,{field:'right', title: '操作', width:90,toolbar:"#barDemo"}
         ]]
         ,id: 'testReload'
         ,page: true
@@ -128,7 +122,10 @@
 
                 layer.confirm("您确定要下架这些商品吗？", function () {
                     for (var i = 0; i < checkStatus.data.length; i++) {
+                        console.log(checkStatus.data.length);
                         var id= checkStatus.data[i].id ;
+                        console.log(id);
+
                         $.ajax({
                             url:  '/deleteGOrderById',
                             type: "POST",
@@ -141,14 +138,15 @@
                     location.reload(true);
 
                 });
+            },
 
 
-            }
-        };
+            };
         //监听的启动
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+
         });
 
         //table的监听
@@ -170,9 +168,48 @@
 
                 });
             } else if(obj.event === 'edit'){
-                xadmin.open('编辑',"/order-view.html");
+                xadmin.open('编辑',"/order-view?id="+data.id);
             }
         });
+            //监听提交 lay-filter="search"，重载
+            form.on('submit(search)', function(data){
+                console.log("进入重载");
+                var formData = data.field;
+                var orderid = formData.orderid,
+                    url=formData.url,
+                    icon=formData.icon,
+                    parent_id=formData.parent_id;
+                var start=formData.start;
+                var end=formData.end;
+                console.log(formData);
+                console.log(orderid);
+
+               if(start==''&&end==''&&orderid==''){
+                    layer.msg('请输入的搜索信息！', {icon: 2});
+                }
+               else{
+                   if(orderid==""){
+                       orderid=0;
+                   }
+                //执行重载
+                table.reload('testReload', {
+                    url: '/search'
+                    , method: 'post'
+                    ,
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {//这里传参 向后台
+                        start:start,
+                        end:end,
+                        id:orderid
+                        //可传多个参数到后台... ，分隔
+                    }
+                });
+               }
+                return false;//false：阻止表单跳转 true：表单跳转
+            });
+
             function getpayment(){
                 console.log("进入分类单");
                 $.ajax({

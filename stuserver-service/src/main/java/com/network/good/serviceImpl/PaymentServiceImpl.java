@@ -1,7 +1,7 @@
 package com.network.good.serviceImpl;
 
 import com.network.api.beans.Payment;
-import com.network.api.service.IPaymentService;
+import com.network.good.service.IPaymentService;
 import com.network.good.mapper.PaymentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

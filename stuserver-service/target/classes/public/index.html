@@ -46,7 +46,7 @@
                 </dd>
                 <dd>
                 <dd>
-                    <a href="./member-password.html">修改密码</a></dd>
+                    <a href="/member-password.html">修改密码</a></dd>
                 <dd>
                     <a href="./login.html">退出</a></dd>
             </dl>
@@ -69,19 +69,9 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('会员列表','member-list1.html',true)">
+                        <a onclick="xadmin.add_tab('会员管理','member-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员列表</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('会员删除','member-del.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员删除</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('等级管理','member-level.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>等级管理</cite></a>
+                            <cite>会员管理</cite></a>
                     </li>
                 </ul>
             </li>
@@ -99,39 +89,44 @@
                 </ul>
             </li>
             <li>
+            <a href="javascript:;">
+                <i class="iconfont left-nav-li" lay-tips="商品管理">&#xe6f6;</i>
+                <cite>商品管理</cite>
+                <i class="iconfont nav_right">&#xe697;</i></a>
+            <ul class="sub-menu">
+                <li>
+                    <a onclick="xadmin.add_tab('商品列表','product-list.html')">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite>商品列表</cite></a>
+                </li>
+            </ul>
+        </li>
+            <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="商品管理">&#xe6f6;</i>
-                    <cite>商品管理</cite>
+                    <i class="iconfont left-nav-li" lay-tips="物流管理">&#xe6f6;</i>
+                    <cite>物流管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('商品列表','product-list.html')">
+                        <a onclick="xadmin.add_tab('物流列表','logistics-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>商品列表</cite></a>
+                            <cite>物流列表</cite></a>
                     </li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
-                    <cite>管理员管理</cite>
+                    <i class="iconfont left-nav-li" lay-tips="技能管理">&#xe6f6;</i>
+                    <cite>技能管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
+                        <a onclick="xadmin.add_tab('技能列表','skill-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>管理员列表</cite></a>
+                            <cite>技能列表</cite></a>
                     </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>角色管理</cite></a>
-                    </li>
-                    <li>
-                        <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限管理</cite></a>
-                    </li>
+                </ul>
+            </li>
                 </ul>
             </li>
         </ul>
@@ -156,7 +151,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                <iframe src='/welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>
         <div id="tab_show"></div>

@@ -19,42 +19,61 @@
 	</head>
 	<body class="login-bg">
 
-		<div class="login layui-anim layui-anim-up">
-			<div class="message">后台管理系统登录</div>
-			<div id="darkbannerwrap"></div>
+	<div class="login layui-anim layui-anim-up">
+		<div class="message">后台管理系统登录</div>
+		<div id="darkbannerwrap"></div>
 
-			<form method="post" class="layui-form">
-				<input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
-				<hr class="hr15">
-				<input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
-				<hr class="hr15">
-				<input value="登录" style="width:100%;" type="button" onclick="login()">
-				<hr class="hr20">
-			</form>
-		</div>
+		<form class="layui-form">
 
-		<script>
-			// 提交登录
-			function login() {
-				window.location.href = "./index.html";
-			}
+			<input name="username" id="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+			<hr class="hr15">
+			<input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+			<hr class="hr15">
+			<button class="layui-btn" lay-filter="login" lay-submit="" width="300">登录</button>
+			<hr class="hr20">
+		</form>
+	</div>
 
-			// $(function() {
-			// 	layui.use('form', function() {
-			// 		var form = layui.form;
-			// 		layer.msg('玩命卖萌中', function(){
-			// 		  //关闭后的操作
-			// 		  });
-			// 		监听提交
-			// 		form.on('submit(login)', function(data) {
-			// 			// alert(888)
-			// 			layer.msg(JSON.stringify(data.field), function() {
-			// 				location.href = 'index.html'
-			// 			});
-			// 			return false;
-			// 		});
-			// 	});
-			// })
+	<script>
+		// 提交登录
+
+		layui.use(['table','laydate', 'form'],
+		function() {
+				 var form=layui.form;
+
+				//监听提交
+				form.on('submit(login)', function(data) {
+					var User={
+						name: $('input[name="username"]').val(),
+						password:$('input[name="password"]').val()
+					};
+					console.log(User);
+					//发异步，把数据提交给php
+					$.ajax({
+						url:'/loginUser',
+						data:JSON.stringify(User),
+						type:'post',
+						dataType:'json',
+						contentType: "application/json",
+						success:function (result) {
+							console.log(result);
+							console.log(result.code);
+							if(result.code=='-1'){
+								layer.msg("该用户名不存在！",{icon: 2});
+							}
+							else if(result.code=='-2'){
+								layer.msg("密码错误！",{icon: 2});
+							}
+							else {
+								layer.msg("恭喜你，登陆成功！",{icon: 1});
+								location.href = 'index.html'
+							}
+						}
+					});
+
+					return false;
+				});
+			});
 		</script>
 		<!-- 底部结束 -->
 		<script>

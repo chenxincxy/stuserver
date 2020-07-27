@@ -39,7 +39,7 @@
                                     </select>
 								</div>
                                 <div class="layui-input-inline layui-show-xs-block">
-                                    <button  type="button" class="layui-btn" data-type="getreload" >
+                                    <button  type="button" class="layui-btn" data-type="getreload" lay-submit="" lay-filter="search">
                                         <i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
@@ -88,7 +88,7 @@
                 ,cols: [[
                     {checkbox: true, fixed: true}
                     ,{field:'id', title: '商品编号', width:100, sort: true, fixed: true}
-                    ,{ field: 'tname', title : '商品分类', width:100,templet: '<div>{{d.type.name}}</div>'}
+                    ,{ field: 'tname', title : '商品分类', width:150,templet: '<div>{{d.type.name}}</div>'}
                     ,{field:'name', title: '商品名', width:80, sort: true,edit:true}
                     ,{field:'price', title: '总价', width:100}
                     ,{field:'providerid', title: '卖家编号', width:100}
@@ -208,6 +208,8 @@
                 $('.layui-btn').on('click', function(){
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
+
+
             });
 
             //table的监听

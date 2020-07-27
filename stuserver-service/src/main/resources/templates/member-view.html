@@ -1,0 +1,167 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>欢迎页面-X-admin2.2</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+	<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+	<link rel="stylesheet" href="../static/css/font.css" th:href="@{/css/font.css}">
+	<link rel="stylesheet" href="../static/css/xadmin.css" th:href="@{/css/xadmin.css}">
+	<script src="../static/lib/layui/layui.js" charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+	<script type="text/javascript" src="../static/js/xadmin.js" th:src="@{/js/xadmin.js}"></script>
+
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-body ">
+							<form>
+							<table class="layui-table layui-form">
+								<thead>
+									<tr>
+                                        <th >身份证号码</th>
+										<th>邮箱</th>
+										<th>身份</th>
+                                        <th>学校/单位</th>
+										<th>专业/职业</th>
+                                        <th>二手平台权限</th>
+                                        <th>技能平台权限</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td th:text="${user.IDcard}"></td>
+										<td th:text="${user.email}"></td>
+										<td th:text="${user.status}"></td>
+										<td th:text="${user.school}"></td>
+										<td th:text="${user.major}"></td>
+                                        <td><select name="slevelName" id="slevelName">
+                                        </select>
+                                        </td>
+                                        <td><select name="glevelName" id="glevelName">
+                                        </select>
+                                        </td>
+									</tr>
+								</tbody>
+							</table>
+							</form>
+						</div>
+						<div class="layui-card-body ">
+							<!-- 提交用户名查询的表单 -->
+								<button class="layui-btn" lay-filter="update" lay-submit="">更改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			// 这个不可以删.删掉的话复选框会出错
+			layui.use(['laydate', 'form'], function() {
+				$=layui.jquery;
+				var laydate = layui.laydate;
+				var form=layui.form;
+
+
+			getSlevelName();
+			getGlevelName();
+
+
+
+			form.on('submit(update)',
+					function (data) {
+						console.log('进入function');
+						console.log(data);
+						var user={
+							id:[[${user.id}]],
+							slevelName:$("#slevelName").val(),
+							glevelName:$("#glevelName").val()
+						};
+						//发异步，把数据提交给php
+						$.ajax({
+							url:'/updateUser',
+							data:JSON.stringify(user),
+							type:'post',
+							dataType:'json',
+							contentType:"application/json"
+						});
+						layer.alert("修改成功", {
+									icon: 6
+								},
+								function () {
+									parent.location.reload();
+									// 获得frame索引
+									var index = parent.layer.getFrameIndex(window.name);
+									//关闭当前frame
+									parent.layer.close(index);
+								});
+						return false;
+					});
+
+			function getSlevelName(){
+				console.log("进入SL-------");
+				$.ajax({
+					url:'/SLevellist',
+					dataType:'json',
+					type:'get',
+					success:function(data) {
+						console.log("进入select");
+						if (data != undefined && data != null && data != "") { //坑：data.data
+							console.log(data);
+							var list=data.data;
+							var html = "";
+							html += "<option value=''>[[${user.slevelName}]]</option>";
+							for (var i = 0; i < list.length; i++) {
+								html += "<option value=" + list[i]["name"] + " >" + list[i]["name"] + "</option>";
+							}
+						}
+						$('#slevelName').append(html);
+						layui.form.render("select");
+					}
+
+				});
+			}
+			function getGlevelName(){
+				console.log("进入GL-----");
+				$.ajax({
+					url:'/GLevellist',
+					dataType:'json',
+					type:'get',
+					success:function(data) {
+						console.log("进入select");
+						if (data != undefined && data != null && data != "") { //坑：data.data
+							console.log(data);
+							var list=data.data;
+							var html = "";
+							html += "<option value=''>[[${user.glevelName}]]</option>";
+							for (var i = 0; i < list.length; i++) {
+								html += "<option value=" + list[i]["name"] + " >" + list[i]["name"] + "</option>";
+							}
+						}
+						$('#glevelName').append(html);
+						layui.form.render("select");
+					}
+
+				});
+			}
+			});
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</body>
+
+</html>

@@ -2,7 +2,7 @@ package com.network.good.serviceImpl;
 
 
 import com.network.api.beans.Type;
-import com.network.api.service.ITypeService;
+import com.network.good.service.ITypeService;
 import com.network.good.mapper.TypeDao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

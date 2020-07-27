@@ -2,10 +2,10 @@ package com.network.good.controller;
 
 import com.network.api.beans.Good;
 import com.network.api.beans.Type;
-import com.network.api.service.IGoodService;
+import com.network.good.service.IGoodService;
 
 
-import com.network.api.service.ITypeService;
+import com.network.good.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -35,11 +35,6 @@ public class GoodController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @RequestMapping("/index")
-    public String getindex(){   //商品列表页面
-
-        return "index";
-    }
 
     @ResponseBody
     @RequestMapping("/typelist")
@@ -48,8 +43,6 @@ public class GoodController {
         List<Type> goodtypes = iTypeService.selectAll();
         if(goodtypes!=null){
             map.put("data",goodtypes);
-            System.out.println(map);
-
             return map;
         }
         return null;
@@ -62,7 +55,6 @@ public class GoodController {
         List<Good> goods = iGoodService.selectAll();
         if(goods!=null){
             map.put("data",goods);
-            System.out.println(map);
             return map;
         }
         return null;
@@ -79,13 +71,11 @@ public class GoodController {
         int start=(current-1)*size;
         int count=iGoodService.getTotalLines();
         List<Good> goods = iGoodService.selectGoodsByPage(start,size);
-
         if (goods != null) {
             map.put("code", 0);
             map.put("msg", "");
             map.put("count", count);
             map.put("data", goods);
-            System.out.println(map);
             return map;
         }
         return null;
@@ -110,7 +100,6 @@ public class GoodController {
             map.put("msg", "");
             map.put("count", count);
             map.put("data", goods);
-            System.out.println(map);
             return map;
         }
         return null;
@@ -132,7 +121,6 @@ public class GoodController {
             map.put("msg", "");
             map.put("count", count);
             map.put("data", goods);
-            System.out.println(map);
             return map;
         }
         return null;
@@ -156,7 +144,6 @@ public class GoodController {
             map.put("msg", "");
             map.put("count", count);
             map.put("data", goods);
-            System.out.println(map);
             return map;
         }
         return null;
@@ -179,7 +166,6 @@ public class GoodController {
     @RequestMapping("/deleteById")
     public void deleteById(@RequestParam("id") int id){
         iGoodService.deleteById(id);
-        System.out.println("我正在删除");
         return ;
     }
 
@@ -188,12 +174,9 @@ public class GoodController {
     @RequestMapping("/product-view")
     public String Goodview(@RequestParam("id") int id,Model model){
         Map<String,Object> map=new HashMap<String, Object>();
-        System.out.println("进入我view了");
-
         Good good= iGoodService.selectById(id);
         if (good != null) {
             map.put("data", good);
-            System.out.println(map);
             model.addAttribute("good",good);
         }
         return "product-view";
@@ -205,6 +188,5 @@ public class GoodController {
     @RequestMapping("updateGood")
     public void updateGood(@RequestBody Good good){
         iGoodService.updateGood(good);
-        System.out.println("我在修改");
     }
 }

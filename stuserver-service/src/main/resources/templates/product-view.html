@@ -1,5 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+	<meta charset="UTF-8">
 <title>欢迎页面-X-admin2.2</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -115,7 +117,7 @@
 								}
 
 								var time='[[${good.shelfdate}]]';
-								var fmt=new Date(time).Format("yyyy-MM-dd")
+								var fmt=new Date(time).Format("yyyy-MM-dd");
 
 								var good = {
 									id:[[${good.id}]],

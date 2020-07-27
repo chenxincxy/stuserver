@@ -2,7 +2,7 @@ package com.network.good.serviceImpl;
 
 
 import com.network.api.beans.Good;
-import com.network.api.service.IGoodService;
+import com.network.good.service.IGoodService;
 import com.network.good.mapper.GoodDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

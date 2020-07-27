@@ -13,11 +13,11 @@ public class GOrder {
     private String orderstatus; //订单状态
     private String paymentstatus;//支付状态
     private String shipstatus;//发货状态
-    private String logistics;//物流
     private String username;
     private String userphone;
     private String useraddress;
     private User user;
+    private Good good;
 
     public int getId() {
         return id;
@@ -59,6 +59,7 @@ public class GOrder {
         this.gddate = gddate;
     }
 
+
     public int getGdid() {
         return gdid;
     }
@@ -91,13 +92,6 @@ public class GOrder {
         this.shipstatus = shipstatus;
     }
 
-    public String getLogistics() {
-        return logistics;
-    }
-
-    public void setLogistics(String logistics) {
-        this.logistics = logistics;
-    }
 
     public User getUser() {
         return user;
@@ -108,20 +102,14 @@ public class GOrder {
     }
 
     public String getUsername() {
-        if(username==null)
-            return user.getName();
         return username;
     }
 
-    public void setUsername(String username,User user) {
-        if(username==null)
-            username=user.getName();
+    public void setUsername(String username) {
         this.username = username;
     }
 
     public String getUserphone() {
-        if(userphone==null)
-            return user.getPhone();
         return userphone;
     }
 
@@ -130,13 +118,19 @@ public class GOrder {
     }
 
     public String getUseraddress() {
-        if(useraddress==null)
-            return user.getAddress();
         return useraddress;
     }
 
     public void setUseraddress(String useraddress) {
         this.useraddress = useraddress;
+    }
+
+    public Good getGood() {
+        return good;
+    }
+
+    public void setGood(Good good) {
+        this.good = good;
     }
 
     @Override
@@ -151,11 +145,11 @@ public class GOrder {
                 ", orderstatus='" + orderstatus + '\'' +
                 ", paymentstatus='" + paymentstatus + '\'' +
                 ", shipstatus='" + shipstatus + '\'' +
-                ", logistics='" + logistics + '\'' +
                 ", username='" + username + '\'' +
                 ", userphone='" + userphone + '\'' +
                 ", useraddress='" + useraddress + '\'' +
                 ", user=" + user +
+                ", good=" + good +
                 '}';
     }
 }

@@ -1,14 +1,19 @@
 package com.network.api.beans;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Logistics {
     private int id;
     private String name;
     private BigDecimal fee;
-    private String receivername;
+    private String receiverName;
     private String receiverPhone;
     private String receiverAddress;
+    private String remarks;
+    private Date Deliverytime;
+    private int gorderid;
+    private GOrder gOrder;
 
     public int getId() {
         return id;
@@ -35,12 +40,12 @@ public class Logistics {
         this.fee = fee;
     }
 
-    public String getReceivername() {
-        return receivername;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setReceivername(String receivername) {
-        this.receivername = receivername;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public String getReceiverPhone() {
@@ -57,5 +62,53 @@ public class Logistics {
 
     public void setReceiverAddress(String receiverAddress) {
         this.receiverAddress = receiverAddress;
+    }
+
+    public int getGorderid() {
+        return gorderid;
+    }
+
+    public void setGorderid(int gorderid) {
+        this.gorderid = gorderid;
+    }
+
+    public GOrder getgOrder() {
+        return gOrder;
+    }
+
+    public void setgOrder(GOrder gOrder) {
+        this.gOrder = gOrder;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public Date getDeliverytime() {
+        return Deliverytime;
+    }
+
+    public void setDeliverytime(Date Deliverytime) {
+        Deliverytime = Deliverytime;
+    }
+
+    @Override
+    public String toString() {
+        return "Logistics{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fee=" + fee +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", Deliverytime=" + Deliverytime +
+                ", gorderid=" + gorderid +
+                ", gOrder=" + gOrder +
+                '}';
     }
 }
